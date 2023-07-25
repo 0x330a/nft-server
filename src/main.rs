@@ -26,7 +26,7 @@ struct Attribute {
 async fn main() {
     let app = Router::new()
         .route("/meta/:id", get(get_metadata));
-    let addr = SocketAddr::from(([127, 0, 0, 1], 4200));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 4200));
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
