@@ -1,4 +1,5 @@
 alias b := build
+alias d := deploy
 
 build:
     cargo build
@@ -6,3 +7,5 @@ build:
 test:
     cargo test
 
+deploy:
+    fly deploy
