@@ -9,6 +9,14 @@ use axum::{
 use serde::Serialize;
 
 #[derive(Serialize)]
+struct ContractMetadata {
+    name: String,
+    description: String,
+    image: String,
+    external_link: String,
+}
+
+#[derive(Serialize)]
 struct Metadata {
     name: String,
     description: String,
@@ -25,12 +33,22 @@ struct Attribute {
 #[tokio::main]
 async fn main() {
     let app = Router::new()
+        .route("/contract-meta", get(get_contract_metadata))
         .route("/meta/:id", get(get_metadata));
     let addr = SocketAddr::from(([0, 0, 0, 0], 4200));
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
+}
+
+async fn get_contract_metadata() -> Json<ContractMetadata> {
+    Json(ContractMetadata {
+        name: "Cool Nft".to_string(),
+        description: "Coolest NFT!".to_string(),
+        image: "https://opensea.io/static/images/logos/opensea-logo.svg".to_string(),
+        external_link: "https://nft-server.fly.dev/".to_string(),
+    })
 }
 
 async fn get_metadata(
